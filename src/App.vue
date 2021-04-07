@@ -1,13 +1,16 @@
 <template>
   <div>
     <h1>Web Form</h1>
+    <SignupForm />
   </div>
 </template>
 
 <script>
+import SignupForm from "./components/SignupForm";
+import "./assets/styles/global.css";
 export default {
   name: "App",
-  components: {},
+  components: { SignupForm },
 };
 </script>
 
