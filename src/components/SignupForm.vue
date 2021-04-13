@@ -1,12 +1,13 @@
 <template>
   <div>
-    <form>
+    <form @submit.prevent="handleSubmit">
       <!-- Input Fields -->
       <label for="">Email:</label>
-      <input type="email" required v-model="email" />
+      <input type="email" required v-model.trim="email" />
 
       <label for="">Password:</label>
       <input type="password" required v-model="password" />
+      <div class="msg">{{ passwordError }}</div>
 
       <!-- Select Boxes -->
       <label for="">Role:</label>
@@ -17,7 +18,7 @@
 
       <!-- Keyup Input Field -->
       <label>Skill:</label>
-      <input type="text" v-model="tempSkill" @keyup.ctrl="addSkill" />
+      <input type="text" v-model.trim="tempSkill" @keyup.ctrl="addSkill" />
       <div
         v-for="skill in skills"
         :key="skill"
@@ -32,14 +33,12 @@
         <input type="checkbox" v-model="terms" required />
         <label>Accept terms and conditions</label>
       </div>
-    </form>
 
-    <p>Your Email: {{ email }}</p>
-    <p>Your Password: {{ password }}</p>
-    <p>Role: {{ role }}</p>
-    <p>Terms: {{ terms }}</p>
-    <p>Names: {{ names }}</p>
-    <p>Skills: {{ skills }}</p>
+      <!-- Submit Form -->
+      <div class="submit">
+        <button>Create Account</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -49,12 +48,13 @@ export default {
   data() {
     return {
       email: "",
-      password: "secred123",
+      password: "",
       role: "",
       terms: false,
       names: [],
       tempSkill: "",
       skills: [],
+      passwordError: "",
     };
   },
   methods: {
@@ -70,6 +70,14 @@ export default {
       this.skills = this.skills.filter((item) => {
         return skill !== item;
       });
+    },
+    handleSubmit(e) {
+      console.log(e);
+      // validate password
+      this.passwordError =
+        this.password.length > 5
+          ? ""
+          : "Password must be at least 6 chars long";
     },
   },
 };
@@ -113,6 +121,11 @@ input[type="checkbox"] {
   top: 3px;
 }
 
+.msg {
+  margin-top: 5px;
+  color: firebrick;
+}
+
 .pill {
   display: inline-block;
   margin: 20px 10px 0 0;
@@ -124,5 +137,18 @@ input[type="checkbox"] {
   font-weight: bold;
   color: #777;
   cursor: pointer;
+}
+
+button {
+  background: dodgerblue;
+  border: 0;
+  padding: 10px 20px;
+  margin-top: 20px;
+  color: white;
+  border-radius: 20px;
+}
+
+.submit {
+  text-align: center;
 }
 </style>
